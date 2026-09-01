@@ -1129,56 +1129,7 @@ function deleteAttraction(id) {
 }
 window.deleteAttraction = deleteAttraction;
 
-// Map Handling
-function switchMapRegion(region, btn) {
-   currentMapRegion = region;
-function switchMapRegion(regionName, btn) {
-    // הסרת המחלקה active מכל הכפתורים והוספה לכפתור הנבחר
-    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
 
-    // עדכון כותרת האזור
-    document.getElementById('mapRegionTitle').innerText = regionName;
-
-    // מיפוי מדויק של שמות הערים לכתובות המפה התקינות
-    const mapUrls = {
-        'ניו יורק': 'https://maps.google.com/maps?q=New+York&t=&z=12&ie=UTF8&iwloc=&output=embed',
-        'מיאמי': 'https://maps.google.com/maps?q=Miami&t=&z=12&ie=UTF8&iwloc=&output=embed',
-        'לוס אנגלס': 'https://maps.google.com/maps?q=Los+Angeles&t=&z=12&ie=UTF8&iwloc=&output=embed',
-        'סן דייגו': 'https://maps.google.com/maps?q=San+Diego&t=&z=12&ie=UTF8&iwloc=&output=embed',
-        'וגאס': 'https://maps.google.com/maps?q=Las+Vegas&t=&z=12&ie=UTF8&iwloc=&output=embed'
-    };
-
-    // עדכון כתובת ה-iframe לפי היעד שנבחר
-    const iframe = document.getElementById('googleMapIframe');
-    if (mapUrls[regionName]) {
-        iframe.src = mapUrls[regionName];
-    }
-}
-
-window.switchMapRegion = switchMapRegion;
-
-function renderMapSelectedList() {
-   const container = document.getElementById('selectedAttractionsMapList');
-   if (!container) return;
-   container.innerHTML = '';
-
-   const selected = attractionsList.filter(item => item.region === currentMapRegion && attractionSelections[item.id]);
-
-   if (selected.length === 0) {
-       container.innerHTML = `<p style="font-size: 0.9rem; color: var(--text-muted);">טרם סומנו אטרקציות במפה באזור ${currentMapRegion}.</p>`;
-       return;
-   }
-
-   selected.forEach(attr => {
-       container.innerHTML += `
-           <div style="background: white; border: 1px solid var(--border); padding: 10px 14px; border-radius: 8px; display:flex; justify-content:space-between; align-items:center;">
-               <span>📍 <strong>${attr.title}</strong> - ${attr.desc}</span>
-               ${attr.map ? `<a href="${attr.map}" target="_blank" class="link-btn">נווט</a>` : ''}
-           </div>
-       `;
-   });
-}
 
 // Currency & Expenses
 function convertCurrency() {
